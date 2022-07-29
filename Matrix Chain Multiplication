@@ -1,0 +1,37 @@
+#include <iostream>
+#include <climits>
+using namespace std;
+
+int main() {
+	int n;
+	cin>>n;
+	int dp[n-1][n-1];
+	int res;
+	int arr[n];
+	for(int i=0;i<n;i++){
+		cin>>arr[i];
+	}
+	for(int gap=0;gap<n-1;gap++){
+		for(int i=0,j=gap;j<n-1;i++,j++){
+			if(gap==0){
+				dp[i][j]=0;
+			}else if(gap==1){
+				dp[i][j]=arr[i]*arr[j]*arr[j+1];
+			}else{
+				int min=INT_Max;
+				for(int k=0;k<j;k++){
+					int lc=dp[i][k];
+					int rc=dp[k+1][j];
+					int mc=arr[i]*arr[k+1]*arr[j+1];
+					int ans=lc+rc+mc;
+					if(min>ans){
+						min=ans;
+					}
+				}
+				dp[i][j]=min;
+			}
+		}
+	}
+	cout<<dp[0][n-2]<<endl;
+	return 0;
+}
