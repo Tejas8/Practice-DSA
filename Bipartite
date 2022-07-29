@@ -1,0 +1,49 @@
+// Checking graph is Bipartite or not without use of Standard Library.
+
+
+
+#include <iostream>
+using namespace std;
+
+int adj[100][100];
+int n;
+
+bool bipartite(int color[],int i){
+	bool  flag=true;
+	for(int j=0;j<n;j++){
+		if(adj[i][j]){
+			if(color[j]==-1){
+				color[j]=1-color[i];
+				flag=flag&bipartite(color,j);
+			}else{
+				if(color[i]==color[j])return false;
+			}
+		}
+	}
+	return flag;
+}
+int main() {
+	//int n;
+	cin>>n;
+	int color[n];
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			cin>>adj[i][j];
+		}
+	}
+	bool  flag=true;
+	for(int i=0;i<n;i++)color[i]=-1;
+	for(int i=0;i<n;i++){
+		if(color[i]==-1){
+     color[i]=0;
+     if(!bipartite(color,i)){
+     	cout<<-1<<endl;
+     	return 0;
+     }
+	}
+}
+	for(int i=0;i<n;i++){
+		if(color[i]==0)cout<<i<<endl;
+	}
+	return 0;
+}
